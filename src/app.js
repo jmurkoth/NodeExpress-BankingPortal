@@ -57,10 +57,10 @@ app.get('/transfer',(req,res)=>{
 
 //transfer post route
 app.post('/transfer',(req,res)=>{
-    console.log(`Post Initiated FROM BALANCE ${ accounts[req.body.from].balance} TO BALANCE : ${ accounts[req.body.to].balance} Amount :${req.body.amount}`);
+    //console.log(`Post Initiated FROM BALANCE ${ accounts[req.body.from].balance} TO BALANCE : ${ accounts[req.body.to].balance} Amount :${req.body.amount}`);
     accounts[req.body.from].balance =accounts[req.body.from].balance- req.body.amount;
     accounts[req.body.to].balance =parseInt(accounts[req.body.to].balance) + parseInt(req.body.amount,10);
-    console.log(`Post Final FROM BALANCE: ${ accounts[req.body.from].balance} TO BALANCE : ${ accounts[req.body.to].balance}`);
+   // console.log(`Post Final FROM BALANCE: ${ accounts[req.body.from].balance} TO BALANCE : ${ accounts[req.body.to].balance}`);
     const accountsJSON= JSON.stringify(accounts,null,4);
     fs.writeFileSync(path.join(__dirname,'/json/accounts.json'),accountsJSON,'utf8');
     res.render('transfer',{message:'Transfer Completed'});
@@ -75,10 +75,10 @@ app.get('/payment',(req,res)=>{
 //payment post route
 app.post('/payment',(req,res)=>{
     // handle the saving now
-    console.log(`Post Initiated FROM BALANCE ${ accounts.credit.balance} Amount :${req.body.amount}`);
-    accounts.credit.balance=parseInt(accounts.credit.balance) - parseInt(req.body.amount);
-    accounts.credit.available=parseInt(accounts.credit.available) + parseInt(req.body.amount);
-    console.log(`Post Final FROM BALANCE ${ accounts.credit.balance} Amount :${req.body.amount}`);
+    //console.log(`Post Initiated FROM BALANCE ${ accounts.credit.balance} Amount :${req.body.amount}`);
+    accounts.credit.balance-=req.body.amount;
+    accounts.credit.available+=parseInt(req.body.amount,10);
+    //console.log(`Post Final FROM BALANCE ${ accounts.credit.balance} Amount :${req.body.amount}`);
     const accountsJSON= JSON.stringify(accounts,null,4);
     fs.writeFileSync(path.join(__dirname,'/json/accounts.json'),accountsJSON,'utf8');
     res.render('payment',{account: accounts.credit,message:'Payment Successful'});
